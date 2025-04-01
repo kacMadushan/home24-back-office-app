@@ -1,22 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { MOCK_USER } from '../../utils/constants';
+import { AuthProps } from '../../types/auth';
 
-type User = {
-    email: string;
-    password: string;
-    name: string;
-}
-
-export interface authSliceProps {
-    user: User | null
-    isAuthenticated: boolean;
-    loading: boolean;
-    error: string | null;
-}
-
-const initialState: authSliceProps = {
+const initialState: AuthProps = {
     user: null,
     isAuthenticated: false,
-    loading: false,
     error: null
 };
 
@@ -25,16 +13,13 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         signIn: (state, action) => {
-            state.loading = true;
             state.user = action.payload;
-            if (state.user?.email === "admin@example.com" && state.user.password === "password") {
+            if (state.user?.email === MOCK_USER.email && state.user.password === MOCK_USER.password) {
                 state.isAuthenticated = true;
                 state.user = action.payload
-                state.loading = false;
                 state.error = null;
             } else {
                 state.error = "Invalid credentials";
-                state.loading = false;
                 state.user = null;
             }
         }
